@@ -3,6 +3,6 @@
 
 int Subject ()
 {
-  printf ("The national bird");
+  printf ("The state flower");
   return 0;
 };
