@@ -1,0 +1,6 @@
+# Editor Cruft
+*~
+
+# C Output
+*.o
+*.a
