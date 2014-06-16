@@ -4,7 +4,7 @@ CU-CSCI3308-MakePractice
 Assignment to practice the use of GNU Make
 
 By:  
-Andy Sayler
+Andy Sayler  
 Judy Stafford  
 Univerity of Colorado  
 CSCI 3308  
