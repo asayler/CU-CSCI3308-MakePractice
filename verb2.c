@@ -3,6 +3,6 @@
 
 int Verb ()
 {
-  printf  (" is not ");
+  printf  (" is ");
   return 0;
 };
