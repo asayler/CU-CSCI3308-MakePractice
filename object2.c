@@ -3,6 +3,6 @@
 
 int Object ()
 {
-  printf ("the bald eagle.\n");
-  return 0;
+    printf ("the bald eagle.\n");
+    return 0;
 };

@@ -3,10 +3,11 @@
 int main ()
 {
 
-  Subject ();
-  Verb ();
-  Object ();
+    /* Print sentence */
+    Subject ();
+    Verb ();
+    Object ();
 
-  return 0;
+    return 0;
 
 };
