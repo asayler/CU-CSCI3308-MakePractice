@@ -7,21 +7,39 @@ grade=2
 
 echoerr() { echo "$@" 1>&2; }
 
-# Deal with inner directory
-if [[ -d CU-CSCI3308-MakePractice ]]
+
+# Find code
+loc="$(dirname "$(find ./ -type f -iname 'Makefile' | head -1)")"
+if [[ $? -ne 0 ]]
 then
-    mv ./CU-CSCI3308-MakePractice/* .
-    rm -rf ./CU-CSCI3308-MakePractice
+    echoerr "Could not find code"
+    exit ${EXIT_FAILURE}
+fi
+
+# Jump to code dir
+pushd "${loc}" &> /dev/null
+if [[ $? -ne 0 ]]
+then
+    echoerr "pushd failed"
+    exit ${EXIT_FAILURE}
+fi
+
+# Convert files to Unix format
+dos2unix * &> /dev/null
+if [[ $? -ne 0 ]]
+then
+    echoerr "dos2unix failed"
+    exit ${EXIT_FAILURE}
 fi
 
 # Clean
 rm -f *.a *.o facts1 facts2
 
 # Build Libs
-make libs > /dev/null
+make libs &> /dev/null
 if [[ $? -ne 0 ]]
 then
-    make lib > /dev/null
+    make lib &> /dev/null
     if [[ $? -ne 0 ]]
     then
         echoerr "make libs failed"
@@ -55,7 +73,7 @@ fi
 rm -f *.a *.o facts1 facts2
 
 # Build All
-make all > /dev/null
+make all &> /dev/null
 if [[ $? -ne 0 ]]
 then
     echoerr "make all failed"
@@ -78,7 +96,7 @@ else
 fi
 
 # Clean
-make clean > /dev/null
+make clean &> /dev/null
 if [[ $? -ne 0 ]]
 then
     echoerr "make clean failed"
@@ -109,5 +127,14 @@ else
     echoerr "Object files still present"
 fi
 
+# Return to orig dir
+popd &> /dev/null
+if [[ $? -ne 0 ]]
+then
+    echoerr "popd failed"
+    exit ${EXIT_FAILURE}
+fi
+
+# Output grade
 echo ${grade}
 exit ${EXIT_SUCCESS}
