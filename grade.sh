@@ -3,7 +3,7 @@
 EXIT_FAILURE=1
 EXIT_SUCCESS=0
 
-grade=0
+grade=2
 
 echoerr() { echo "$@" 1>&2; }
 
@@ -12,6 +12,43 @@ if [[ -d CU-CSCI3308-MakePractice ]]
 then
     mv ./CU-CSCI3308-MakePractice/* .
     rm -rf ./CU-CSCI3308-MakePractice
+fi
+
+# Clean
+rm -f *.a *.o facts1 facts2
+
+# Build Libs
+make libs > /dev/null
+if [[ $? -ne 0 ]]
+then
+    make lib > /dev/null
+    if [[ $? -ne 0 ]]
+    then
+        echoerr "make libs failed"
+        exit ${EXIT_FAILURE}
+    fi
+fi
+
+# Check for targets
+if [[ ! -f facts1 && ! -f facts2 ]]
+then
+    grade=$((${grade} + 1))
+else
+    echoerr "facts present in libs build"
+fi
+
+if [[ -f libfunnyfacts1.a || -f libFunnyFacts1.a ]]
+then
+    grade=$((${grade} + 1))
+else
+    echoerr "Missing libfunnyfacts1.a"
+fi
+
+if [[ -f libfunnyfacts2.a || -f libFunnyFacts2.a ]]
+then
+    grade=$((${grade} + 1))
+else
+    echoerr "Missing libfunnyfacts2.a"
 fi
 
 # Clean
@@ -38,57 +75,6 @@ then
     grade=$((${grade} + 1))
 else
     echoerr "Missing facts2"
-fi
-
-if [[ -f libfunnyfacts1.a || -f libFunnyFacts1.a ]]
-then
-    grade=$((${grade} + 1))
-else
-    echoerr "Missing libfunnyfacts1.a"
-fi
-
-if [[ -f libfunnyfacts2.a || -f libFunnyFacts2.a ]]
-then
-    grade=$((${grade} + 1))
-else
-    echoerr "Missing libfunnyfacts2.a"
-fi
-
-# Clean
-rm -f *.a *.o facts1 facts2
-
-# Build Libs
-make libs > /dev/null
-if [[ $? -ne 0 ]]
-then
-    make lib > /dev/null
-    if [[ $? -ne 0 ]]
-    then
-        echoerr "make libs failed"
-        exit ${EXIT_FAILURE}
-    fi
-fi
-
-# Check for targets
-if [[ ! -f facts1 && ! -f facts2 ]]
-then
-    grade=$((${grade} + 1))
-else
-    echoerr "facts still present"
-fi
-
-if [[ -f libfunnyfacts1.a || -f libFunnyFacts1.a ]]
-then
-    grade=$((${grade} + 1))
-else
-    echoerr "Missing libfunnyfacts1.a"
-fi
-
-if [[ -f libfunnyfacts2.a || -f libFunnyFacts2.a ]]
-then
-    grade=$((${grade} + 1))
-else
-    echoerr "Missing libfunnyfacts2.a"
 fi
 
 # Clean
